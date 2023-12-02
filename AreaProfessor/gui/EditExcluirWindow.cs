@@ -114,7 +114,21 @@ namespace AreaProfessor
 
         private void btnExcluir_Click(object sender, EventArgs e)
         {
-            new AreaProfessorDAO().excluir(pontuacao.Id);
+            try
+            {
+                DialogResult result = MessageBox.Show("Deseja editar essa pontuação?", "Confirmação", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (result == DialogResult.OK)
+                {
+                    new AreaProfessorDAO().excluir(pontuacao.Id);
+                    MessageBox.Show("Pontuação excluída com sucesso.", "Mensagem", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                }
+
+            }
+            catch (DBException db)
+            {
+                MessageBox.Show($"Database Error: {db.Message}");
+            }
         }
         private bool VerificarFormatoHora(string texto)
         {
